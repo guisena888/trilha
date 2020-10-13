@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("./Users");
+const request = require('request');
 
 router.get("/admin/users/", (req,res) => {
     res.send("lista de users");
@@ -15,22 +16,49 @@ router.get("/admin/users/login", (req,res) => {
 });
 
 
-
-router.post("categories/save", (req,res) => {
-    var title = req.body.title;
-    if(title != undefined){
-// salvar no DB carregando o model de categoria
-        //Category.create({
-        //  title: title,    
-        //}).then(() => 
-        //      res.redirect("/");
-        // )
-    }else{
-        res.redirect("/admin/categories/new");
-    }
+router.post("/users/signin", (req,res) => {
+    var options = {
+        'method': 'POST',
+        'url': 'https://trilha-ies.herokuapp.com/api/auth/signin',
+        'headers': {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(req.body)
+      };
+      request(options, function (error, response) {
+        if (error) throw new Error(error);
+        console.log(response.body);
+        if(response.statusCode == 200){
+            res.redirect("admin/skins");
+        } else {
+            res.redirect("admin/users/login");
+        }
+      });
 });
 
-
-
+router.post("/users/signup", (req,res) => {
+    var options = {
+        'method': 'POST',
+        'url': 'https://trilha-ies.herokuapp.com/api/auth/signup',
+        'headers': {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: req.body.username,
+            email: req.body.email,
+            role: ['mod'],
+            password: req.body.password
+        })
+      };
+      request(options, function (error, response) {
+        if (error) throw new Error(error);
+        console.log(response.body);
+        if(response.statusCode == 200){
+            res.redirect("admin/users/login");
+        } else {
+            res.redirect("admin/users/create")
+        }
+      });
+});
 
 module.exports = router;

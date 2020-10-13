@@ -8,7 +8,8 @@
             <h2>Criação de usuário<h2>
         </div>
         <div class="card-body">
-            <form>
+            <form method="POST" action="/users/signup">
+                <input class="form-control" name="username" type="text" placeholder="username"><br>
                 <input class="form-control" name="email" type="email" placeholder="email@example.com"><br>
                 <input class="form-control" name="password" type="password" placeholder="*******"><br>
                 <button type="submit" class="btn btn-info">Criar</button>
