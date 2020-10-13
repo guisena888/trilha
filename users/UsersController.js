@@ -29,9 +29,9 @@ router.post("/users/signin", (req,res) => {
         if (error) throw new Error(error);
         console.log(response.body);
         if(response.statusCode == 200){
-            res.redirect("admin/skins");
+            res.render("/admin/skins");
         } else {
-            res.redirect("admin/users/login");
+            res.render("/admin/users/login");
         }
       });
 });
@@ -54,9 +54,9 @@ router.post("/users/signup", (req,res) => {
         if (error) throw new Error(error);
         console.log(response.body);
         if(response.statusCode == 200){
-            res.redirect("admin/users/login");
+            res.render("/admin/users/login");
         } else {
-            res.redirect("admin/users/create")
+            res.render("/admin/users/create")
         }
       });
 });
