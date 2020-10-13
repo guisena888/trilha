@@ -1,10 +1,10 @@
 const AWS = require('aws-sdk');
 const fs = require('fs');
 
-AWS.config.update({
-  accessKeyId: 'AKIAJ5GKOECG2XTZCQRA',
-  secretAccessKey: '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'
-});
+//AWS.config.update({
+//  accessKeyId: '',
+//  secretAccessKey: ''
+//});
 
 const s3 = new AWS.S3();
 function uploadToS3(fileNameOld, fileName, callback) {
