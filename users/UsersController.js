@@ -12,7 +12,7 @@ router.get("/admin/users/create", (req,res) => {
 });
 
 router.get("/admin/users/login", (req,res) => {
-    res.reender("admin/users/login");
+    res.render("admin/users/login");
 });
 
 
