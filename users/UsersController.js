@@ -12,7 +12,7 @@ router.get("/admin/users/create", (req,res) => {
 });
 
 router.get("/admin/users/login", (req,res) => {
-    res.render("admin/users/login");
+    res.reender("admin/users/login");
 });
 
 
@@ -29,9 +29,9 @@ router.post("/users/signin", (req,res) => {
         if (error) throw new Error(error);
         console.log(response.body);
         if(response.statusCode == 200){
-            res.render("/admin/skins");
+            res.redirect("/admin/skins");
         } else {
-            res.render("/admin/users/login");
+            res.redirect("/admin/users/login");
         }
       });
 });
@@ -54,9 +54,9 @@ router.post("/users/signup", (req,res) => {
         if (error) throw new Error(error);
         console.log(response.body);
         if(response.statusCode == 200){
-            res.render("/admin/users/login");
+            res.redirect("/admin/users/login");
         } else {
-            res.render("/admin/users/create")
+            res.redirect("/admin/users/create")
         }
       });
 });
