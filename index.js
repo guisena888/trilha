@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-//const connection = require ("./database/database");
+const PORT = process.env.PORT || 5000
 
 const categoriesController = require("./categories/CategoriesController");
 const skinsController = require("./skins/SkinsController");
@@ -23,6 +23,4 @@ app.get("/", (req,res) => {
     res.render("index");
 })
 
-app.listen(8080,() => {
-    console.log("Servidor está rodando.")
-}) 
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
