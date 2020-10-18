@@ -5,35 +5,21 @@
     <h2>Skins</h2><br>
     <a class="btn btn-dark" href="/admin/skins/new">Criar nova skin</a>
     <hr>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Categoria</th>
-                <th>Preço</th>
-                <th>Imagem</th>
-                <th>Ação</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% skins.forEach(skin => { %>
-                <tr>
-                    <th><%= skin.id %></th>
-                    <th><%= skin.name %></th>
-                    <th><%= skin.category.name %></th>
-                    <th><%= skin.price %></th>
-                    <th><%= skin.imageUrl %></th>
-                    <th>
-                        <a class="btn btn-info" href="/admin/skin/edit/<%= skin.id %>">Editar</a>
-                        <form method="POST" action="/admin/skin/delete" style="display: inline;" >
-                            <input type="hidden" name="id" value="<%= skin.id %>">  
-                            <button class="btn btn-danger">Deletar</button>
-                        </form>
-                    </th>
-                </tr>
-            <% }) %>
-        </tbody>
+        <% skins.forEach(skin => { %>
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src='data:image/jpeg;base64,<%= skin.image %>'>
+            <div class="card-body">
+                <h3 class="card-title"><%= skin.name %></h3>
+                <h5 class="card-title"><%= skin.category.name %></h5>
+                <p class="card-text">R$ <%= skin.price %></p>
+                <a class="btn btn-info" href="/admin/skin/edit/<%= skin.id %>">Editar</a>
+                <form method="POST" action="/admin/skin/delete" style="display: inline;" >
+                    <input type="hidden" name="id" value="<%= skin.id %>">  
+                    <button class="btn btn-danger">Deletar</button>
+                </form>
+            </div>
+          </div>
+        <% }) %>
 </div>
 
 <%- include ('../../partials/footer.ejs') %>

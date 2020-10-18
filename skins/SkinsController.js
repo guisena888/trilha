@@ -11,8 +11,11 @@ router.get("/admin/skins", (req,res) => {
     };
     request(options, function (error, response) {
         if (error) throw new Error(error);
-        console.log(JSON.parse(response.body))
-        res.render("admin/skins/index", {skins: JSON.parse(response.body)})
+        skins = JSON.parse(response.body)
+        awsS3.returnAllImages(skins).then((skins) => {
+            console.log('redirecting')
+        res.render("admin/skins/index", {skins: skins})
+        })
     });
 });
 
