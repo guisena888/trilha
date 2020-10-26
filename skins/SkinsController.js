@@ -5,16 +5,29 @@ var formidable = require('formidable');
 const awsS3 = require('./aws-s3/AwsS3')
 
 router.get("/admin/skins", (req,res) => {
+    var categoryName = req.query.categoryName
+    var url = 'https://trilha-ies.herokuapp.com/skin'
+    if(categoryName != null) {
+        url = url + "?category=" + categoryName
+    }
+    console.log(url)
     var options = {
         'method': 'GET',
-        'url': 'https://trilha-ies.herokuapp.com/skin'
+        'url': url
     };
     request(options, function (error, response) {
         if (error) throw new Error(error);
+        if(response.statusCode != 200) { res.render("admin/skins/index", {skins: [], categories: []}) }
         skins = JSON.parse(response.body)
         awsS3.returnAllImages(skins).then((skins) => {
-            console.log('redirecting')
-        res.render("admin/skins/index", {skins: skins})
+            var options = {
+                'method': 'GET',
+                'url': 'https://trilha-ies.herokuapp.com/category'
+            };
+            request(options, function (error, response) {
+                if (error) throw new Error(error);
+                res.render("admin/skins/index", {skins: skins, categories: JSON.parse(response.body)})
+            });
         })
     });
 });
@@ -126,6 +139,33 @@ router.post("/admin/skins/edit/:id", (req,res) => {
             res.redirect("/admin/skins");
         });
       
+});
+
+//new things
+
+router.get("/skins/categories/", (req,res) => {
+    var request = require('request');
+    var options = {
+        'method': 'GET',
+        'url': 'https://trilha-ies.herokuapp.com/category'
+    };
+    request(options, function (error, response) {
+        if (error) throw new Error(error);
+        res.render("admin/skins/index", {categories: JSON.parse(response.body)})
+    });
+});
+
+
+router.get("/admin/skins/:categoryId", (req,res) => {
+    var options = {
+        'method': 'GET',
+        'url': 'https://trilha-ies.herokuapp.com/category/' + req.params.categoryId
+    };
+    request(options, function (error, response) {
+        if (error) throw new Error(error);
+        console.log(JSON.parse(response.body))
+        res.render("admin/skins/:categoryId", {category: JSON.parse(response.body)})
+    });
 });
 
 

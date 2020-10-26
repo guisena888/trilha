@@ -1,10 +1,10 @@
 const AWS = require('aws-sdk');
 const fs = require('fs');
 
-//AWS.config.update({
- //accessKeyId: '',
- //secretAccessKey: ''
-//});
+AWS.config.update({
+ accessKeyId: 'AKIAIVUZ4SAFNAFHQLUQ',
+ secretAccessKey: '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'
+});
 
 const s3 = new AWS.S3();
 function uploadToS3(fileNameOld, fileName, callback) {
@@ -43,7 +43,6 @@ async function returnAllImages(skins) {
   const promises = skins.map(async (skin) => {
     await getS3Image(skin.imageUrl).then((img) => {
       skin.image =  Buffer.from(img).toString('base64')
-      console.log(skin)
     })
   })
  
