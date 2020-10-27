@@ -11,6 +11,8 @@
       <% categories.forEach(category => { %>
         <option value= "<%= category.name %>"> <%= category.name %> </option>
       <% }) %>
+      <option value= "All"> All </option>
+
     </select>
       <br>
 
@@ -40,7 +42,12 @@
 <script>
   function updateView() {
     var x = document.getElementById("categorias").value;
+    if (x=="All") {
+    window.location.href = "/admin/skins
+    }   
+    else {
     window.location.href = "/admin/skins?categoryName=" + x
   }
+}
 </script>
 <%- include ('../../partials/footer.ejs') %>
