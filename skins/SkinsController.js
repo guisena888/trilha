@@ -1,35 +1,34 @@
 const express = require("express");
 const router = express.Router();
+const path = require('path');
+const session = require('express-session');
+
 const request = require('request');
 var formidable = require('formidable');
 const awsS3 = require('./aws-s3/AwsS3')
+const skinService = require('./SkinService')
+const categories = ['Tabuleiro', 'Emblema', 'Peca']
+
+router.get("/error", (req,res) => {
+    skinService.getSkins("tabuleiro")
+        .then(function (body){
+            res.send(body)
+        })
+})
 
 router.get("/admin/skins", (req,res) => {
-    var categoryName = req.query.categoryName
-    var url = 'https://trilha-ies.herokuapp.com/skin'
-    if(categoryName != null) {
-        url = url + "?category=" + categoryName
-    }
-    console.log(url)
-    var options = {
-        'method': 'GET',
-        'url': url
-    };
-    request(options, function (error, response) {
-        if (error) throw new Error(error);
-        if(response.statusCode != 200) { res.render("admin/skins/index", {skins: [], categories: []}) }
-        skins = JSON.parse(response.body)
-        awsS3.returnAllImages(skins).then((skins) => {
-            var options = {
-                'method': 'GET',
-                'url': 'https://trilha-ies.herokuapp.com/category'
-            };
-            request(options, function (error, response) {
-                if (error) throw new Error(error);
-                res.render("admin/skins/index", {skins: skins, categories: JSON.parse(response.body)})
-            });
-        })
-    });
+    
+    //Busca Skins no BackEnd
+    skinService.getSkins(req.query.categoryName)
+    .then(function (body){
+        skins = JSON.parse(body)
+        
+        //Busca imagens na AWS
+        awsS3.returnAllImages(skins)
+            .then((skins) => {
+                res.render("admin/skins/index", {skins: skins, categories: categories})
+                });
+    })
 });
 
 
@@ -41,7 +40,7 @@ router.get("/admin/skins/new", (req,res) => {
     request(options, function (error, response) {
         if (error) throw new Error(error);
         console.log(JSON.parse(response.body))
-        res.render("admin/skins/new", {categories: JSON.parse(response.body)})
+        res.render("admin/skins/new", {categories: categories})
     });
 });
 
@@ -167,6 +166,5 @@ router.get("/admin/skins/:categoryId", (req,res) => {
         res.render("admin/skins/:categoryId", {category: JSON.parse(response.body)})
     });
 });
-
 
 module.exports = router;

@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    </style>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/game/style.css">
+    <title>Trilha dos Heróis</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="images/favicon.ico" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body id="body" onload="initializeGame()" style="background-image: url('https://wallpapermemory.com/uploads/280/galaxy-wallpaper-full-hd-1920x1080-443642.jpg');">
+
+<div class="buttons-div">
+    <form method="get" action="/profile">
+        <button class="button-style"type="submit">Minha conta</button>
+    </form>
+</div>  
+    
+<div class="header">
+    <span class="turn"><span id="turn">Olá!</span></span> 
+    <span> - </span>
+    <span class="message"><span id="message">Aguardando inicio...</span></span>
+</div>
+<% var imageTabuleiro = "/images/vitao.png";
+    skins.forEach(skin => {
+    if(skin.category.name == "Tabuleiro" && skin.isEnabled){
+        imageTabuleiro = 'data:image/jpeg;base64,' + skin.image;
+    }
+    }) %>
+<div class="mid">
+    <canvas height="590" width="600" id="myCanvas" style="background: url('<%=imageTabuleiro%>')">
+        Seu navegador não suporta HTML5.
+    </canvas>
+</div>
+<br><hr>
+
+<% var imagePeca = "/images/vitao.png";
+    skins.forEach(skin => {
+    if(skin.category.name == "Peca" && skin.isEnabled){
+        imagePeca = 'data:image/jpeg;base64,' + skin.image;
+    }
+    }) %>
+
+<img  class="img-responsive" id="image" src="<%=imagePeca%>" style="display: none;">
+
+<div class="div_reload">
+    <span id="vitorias"></span> <br> <br>
+    <span class="reload"><span id="regras" onclick="regrasJogo()">Tutorial do game - </span></span>
+    <span class="reload"><span id="reload" onclick="recomecarJogo()">Restart  </span></span>      
+</div>
+
+<br>
+
+<p class="copyright" >
+    Copyright © 2020 by GoHorse Inc.
+</p>
+
+<!--Home-->
+<div id="home-login" class="home-container">
+    <div class="home">
+        <div class="local">
+            <h3 class="texto-home">LAN</h3>
+            <form>
+                <br>
+                <input id="nome1" type="text" class="input-nome" placeholder="Player 1">
+                <br>
+                <br>
+                <input id="nome2" type="text" class="input-nome" placeholder="Player 2">
+                <br>
+                <br>
+                <input id="btnDoisMesmaMaq" type="button" class="comecar" value="Jogar">
+            </form>
+        </div>
+        <div class="gap">
+            fullgap
+        </div>
+        <div class="entrar">
+            <h3 class="texto-home">Sala nova: </h3>
+            <form>
+                <br>
+                <br>
+                <input id="nameNew" type="text" class="input-nome" placeholder="Seu Nome">
+                <br>
+                <br>
+                <br>
+                <input id="btnSozinho" type="button" class="comecar" value="Criar">
+            </form>
+        </div>
+        <div class="gap">
+            fullgap
+        </div>
+        <div class="multiplayer">
+            <h3 class="texto-home">Sala existente: </h3>
+            <form>
+                <br>
+                <input id="room" type="text" class="input-nome" placeholder="#Id" >
+                <br>
+                <br>
+                <input id="nameJoin" type="text" class="input-nome" placeholder="Seu nome">
+                <br>
+                <br>
+                <input id="btnMultiplayer" type="button" class="comecar" value="Entrar">
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Fim-->
+<div id="fim-login" class="fim-container">
+    <div class="fim">
+        <div class="local">
+            <h3 id="texto-fim" class="texto-fim">Você foi derrotado.</h3>
+            <br>
+            <img src=data:image/jpeg;base64,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>
+            <br>
+            <br>
+            <input id="btnJogarNovamente" type="button" class="jogarNovamente" value="Jogar Novamente">
+        </div>
+    </div>
+</div>
+
+<div id="regra-login" class="regra-container">
+    <div class="regra">
+        <div class="texto-regra">
+            <h4>O jogo consiste em três partes principais:</h4>
+            <li>Colocando as peças: Esta é a fase inicial onde cada jogador coloca um peça alternadamente. Caso um dos jogadores forme uma linha horizontal ou vertical com três peças, ele terá o direito de remover uma peça de seu adversário.</li>
+            <li>Movendo as peças: Esta fase se inicia quando os jogadores colocarem suas nove peças. Deve mover sua peça para uma casa do lado. Caso um dos jogadores tenha somente 3 peças em jogo, ele pode movar a peça para qualquer casa vazia.</li>
+            <li>Removendo peças adversárias: Em qualquer uma das fases acima quando um jogador forma uma "trilha" com 3 peças, ele poderá remover uma peça de seu adversário, porém, não pode remover uma peça que faz parte de uma trilha.</li>
+            <h4>O jogo termina em 3 situações:</h4>
+            <li>Se um jogador reduzir as peças de seu adversário para 2.</li>
+            <li>Se um jogador deixar seu adversário sem nenhuma jogada válida.</li>
+            <li>Se ambos jogadores estiverem com 3 peças em jogo e, em 10 jogadas não houver vencedor.</li>
+            <br>
+            <input id="btnOk" type="button" class="ok" value="Ok!">
+            <br><br>
+        </div>
+    </div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/game/script.js"></script>
+</body>
+</html>

@@ -15,6 +15,10 @@ router.get("/admin/users/login", (req,res) => {
     res.render("admin/users/login");
 });
 
+router.get("/admin/users/logoff", (req,res) => {
+  res.clearCookie('jwt');
+  res.render("admin/users/login");
+});
 
 router.post("/users/signin", (req,res) => {
     var options = {
@@ -27,9 +31,10 @@ router.post("/users/signin", (req,res) => {
       };
       request(options, function (error, response) {
         if (error) throw new Error(error);
-        console.log(response.body);
+        var tokenResponse = JSON.parse(response.body);
         if(response.statusCode == 200){
-            res.redirect("/admin/skins");
+            res.cookie('jwt', tokenResponse.token, {maxAge: 6000 * 60});
+            res.redirect("/");
         } else {
             res.redirect("/admin/users/login");
         }

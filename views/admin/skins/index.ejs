@@ -9,7 +9,7 @@
     <select onchange="updateView()" class="form-control"  name="categorias" id="categorias">
       <option value="" selected>Selecione uma categoria</option>
       <% categories.forEach(category => { %>
-        <option value= "<%= category.name %>"> <%= category.name %> </option>
+        <option value= "<%= category %>"> <%= category %> </option>
       <% }) %>
     </select>
       <br>

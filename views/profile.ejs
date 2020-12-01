@@ -1,0 +1,66 @@
+<%- include ('./partials/navbar.ejs') %>
+<%- include ('./partials/header.ejs') %>
+
+<div class="container">
+    <hr>
+    <h2>Profile</h2><br>
+    <hr>
+    <form method="POST" action="/profile/save" onSubmit="DoSubmit()" id="form">
+    <% categories.forEach(category => { %>
+        <div class="row">
+          <div class="col-sm-2"><%= category %></div>
+          <% var image = "https://pngimage.net/wp-content/uploads/2018/06/ponto-de-interroga%C3%A7%C3%A3o-mario-png.png";
+          mySkins.forEach(skin => {
+            if(skin.category.name == category && skin.isEnabled){
+              image = 'data:image/jpeg;base64,' + skin.image;
+            }
+          }) %> 
+          <img  class="img-responsive col-sm-1" id="image_<%= category %>" src="<%=image%>">
+          <select onchange="updateImage('<%= category %>')" class="form-control col-sm-8"  id="skinSelected_<%= category %>" name="skinSelected_<%= category %>">
+          <option value="https://pngimage.net/wp-content/uploads/2018/06/ponto-de-interroga%C3%A7%C3%A3o-mario-png.png">Default</option>
+          <% mySkins.forEach(mySkin => { %>
+              <% if (mySkin.category.name == category) { %>
+                <% var selected = ( mySkin.isEnabled ) ? "selected" : ""; %>
+                  <option value= "<%= JSON.stringify(mySkin) %>" <%= selected  %>> <%= mySkin.name %> </option>
+              <% } %>
+          <% }) %>
+          </select>
+        </div>
+    <% }) %>
+    <button class="btn btn-info">Salvar</button>
+  </form>
+      <br>
+
+</div>
+
+<script>
+  function DoSubmit(){
+
+    optionTabuleiro = document.createElement('option')
+    optionTabuleiro.value = JSON.parse(document.getElementById('form').skinSelected_Tabuleiro.value).id;
+    document.getElementById('form').skinSelected_Tabuleiro.appendChild(optionTabuleiro)
+    document.getElementById('form').skinSelected_Tabuleiro.value = JSON.parse(document.getElementById('form').skinSelected_Tabuleiro.value).id;
+
+    optionPeca = document.createElement('option')
+    optionPeca.value = JSON.parse(document.getElementById('form').skinSelected_Peca.value).id;
+    document.getElementById('form').skinSelected_Peca.appendChild(optionPeca)
+    document.getElementById('form').skinSelected_Peca.value = JSON.parse(document.getElementById('form').skinSelected_Peca.value).id;
+
+    optionEmblema = document.createElement('option')
+    optionEmblema.value = JSON.parse(document.getElementById('form').skinSelected_Emblema.value).id;
+    document.getElementById('form').skinSelected_Emblema.appendChild(optionEmblema)
+    document.getElementById('form').skinSelected_Emblema.value = JSON.parse(document.getElementById('form').skinSelected_Emblema.value).id;
+
+    return true;
+  }
+
+  function updateImage(category) {
+    var x = document.getElementById("skinSelected_" + category).value;
+    if(x.startsWith('http')){
+      document.getElementById("image_" + category).src = x;
+    } else {
+      document.getElementById("image_" + category).src = 'data:image/jpeg;base64,' + JSON.parse(x).image;
+    }
+  }
+</script>
+<%- include ('./partials/footer.ejs') %>

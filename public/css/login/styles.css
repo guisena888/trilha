@@ -1,0 +1,68 @@
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    background-color: rgb(0, 0, 0);
+  }
+
+p {
+  padding-top: 90px;
+  text-align: center;
+}
+
+.landing {
+    margin: auto;
+    width: 800px;
+    /* height: 70%; */
+    padding-left: 330px;
+    padding-right: 100px;
+    padding-top: 55px;
+    padding-bottom: 55px;
+  }
+.login {
+  margin: auto;
+  width: 500px;
+  height: 70%;
+  padding-left: 300px;
+  padding-right: 100px;
+  padding-top: 55px;
+  padding-bottom: 55px;
+  }
+.div-logo{
+  width: 500px;
+  height: 70%;
+  padding-left: 22px;
+}
+.container {
+  /* padding-top: 70px; */
+  max-width: auto;
+  max-height: auto;
+  
+}
+
+.card-body {
+  background-color: black;
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.card-header {
+  background-color: black;
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.button {
+  display: flex; 
+  justify-content: center;
+}
+
+.form-control {
+  border-radius: 20px;
+  text-align: center;
+}
+
+.card {
+  border:none;
+}

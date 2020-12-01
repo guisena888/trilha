@@ -1,27 +1,37 @@
-<%- include ('../../partials/homenavbar.ejs') %>
-<%- include ('../../partials/header.ejs') %>
 
-<div class="container">
-    <div class="card mt-5">
 
-        <div class="card-header">
-            <h2>Efetue seu login!<h2>
+<head>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/login/styles.css">
+</head>
+
+<body>
+    
+    <div class="container">
+        <div class="card">
+    
+            <div class="card-header">
+                <div class="div-logo">
+                   <img src="/images/landing.png" alt="Landing" class="landing">
+                </div>
+
+            <div class="card-body">
+                <form method="POST" action="/users/signin">
+                    <input class="form-control" name="username" type="text" placeholder="username"><br>
+                    <input class="form-control" name="password" type="password" placeholder="*******"><br> 
+                    <hr> 
+                    <button type="submit" class="btn btn-light">Login</button class="button">
+                </form>
+            </div>
+            <div class="card-header">
+
+                <h6>Não possui conta? <a href="/admin/users/create">Registre-se</a> </h6>
+            </div>
+        <p>Copyright © 2020 by GoHorse Inc. </p>
+    
         </div>
-        <div class="card-body">
-            <form method="POST" action="/users/signin">
-                <input class="form-control" name="username" type="text" placeholder="username"><br>
-                <input class="form-control" name="password" type="password" placeholder="*******"><br>
-                <button type="submit" class="btn btn-info">Login</button>
-                <a class="btn btn-dark" href="/">Cancelar</a>
-            </form>
-        </div>
-        <div class="card-header">
-            <h6>Não possui conta? <a href="/admin/users/create">Registre-se</a> </h6>
-        </div>
-
-
+    
     </div>
 
-</div>
+</body>
 
-<%- include ('../../partials/footer.ejs') %>
