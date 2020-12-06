@@ -181,7 +181,6 @@ function iniciaModal(modalID) {
             
 // Abrindo um novo jogo io
 socket.on('newGame', (data) => {
-    alert("teste")
     //console.log("esperando 2");
     idSala = data.room;
     const message =

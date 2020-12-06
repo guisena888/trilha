@@ -34,6 +34,9 @@ router.post("/users/signin", (req,res) => {
         var tokenResponse = JSON.parse(response.body);
         if(response.statusCode == 200){
             res.cookie('jwt', tokenResponse.token, {maxAge: 6000 * 60});
+            if(tokenResponse.roles.includes("ROLE_MODERATOR")){
+              res.redirect("/admin/skins")
+            }
             res.redirect("/");
         } else {
             res.redirect("/admin/users/login");
@@ -51,7 +54,7 @@ router.post("/users/signup", (req,res) => {
         body: JSON.stringify({
             username: req.body.username,
             email: req.body.email,
-            role: ['mod'],
+            role: ['user'],
             password: req.body.password
         })
       };
