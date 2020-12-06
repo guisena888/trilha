@@ -33,7 +33,7 @@ router.post("/users/signin", (req,res) => {
         if (error) throw new Error(error);
         var tokenResponse = JSON.parse(response.body);
         if(response.statusCode == 200){
-            res.cookie('jwt', tokenResponse.token, {maxAge: 6000 * 60});
+            res.cookie('jwt', tokenResponse.token, {maxAge: 6000 * 60 * 600});
             if(tokenResponse.roles.includes("ROLE_MODERATOR")){
               res.redirect("/admin/skins")
             }
