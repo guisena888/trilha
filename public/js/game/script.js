@@ -46,8 +46,8 @@ var qtdClickBotoes = 0;
 //                         .catch(error => console.log(error))
 
 //para subir o app, use npm install e depois npm start
-const socket = io.connect('http://localhost:5000');
-// const socket = io.connect('https://trilha-fatec.herokuapp.com/')
+// const socket = io.connect('http://localhost:5000');
+const socket = io.connect('https://trilha-web.herokuapp.com/')
 
 function backgrounds(backgrounds) {
     var back1 = document.getElementById('back_geral');
